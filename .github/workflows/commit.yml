@@ -1,9 +1,12 @@
-name: Daily GitHub Commit 🤖
+name: Daily Commit Bot
 
 on:
   schedule:
-    - cron: '55 18 * * *'  # Runs every day at 9:00 UTC
-  workflow_dispatch:      # You can also trigger it manually
+    - cron: '55 18 * * *'  # ⏰ 12:25 AM IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   auto-commit:
@@ -13,14 +16,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Make daily update
-        run: |
-          echo "// commit on $(date)" >> commit_file.js
+      - name: Make daily change
+        run: echo "// ⏰ Test Commit at 12:25 AM IST - $(date)" >> commit_file.js
 
-      - name: Commit and push changes
+      - name: Commit and push
         run: |
-          git config user.name "GitHub Bot"
-          git config user.email "bot@example.com"
-          git add commit_file.js
-          git commit -m "🤖 Daily commit - $(date)" || echo "No changes to commit"
-          git push
+          git config --global user.name "GitHub Bot"
+          git config --global user.email "bot@example.com"
+          git add .
+          git commit -m "🕒 Test commit - $(date)" || echo "No changes to commit"
+          git push origin HEAD
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
