@@ -1,0 +1,26 @@
+name: Daily GitHub Commit 🤖
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # Runs every day at 9:00 UTC
+  workflow_dispatch:      # You can also trigger it manually
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make daily update
+        run: |
+          echo "// commit on $(date)" >> commit_file.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Bot"
+          git config user.email "bot@example.com"
+          git add commit_file.js
+          git commit -m "🤖 Daily commit - $(date)" || echo "No changes to commit"
+          git push
