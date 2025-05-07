@@ -2,7 +2,7 @@ name: Daily Commit Bot
 
 on:
   schedule:
-    - cron: '55 18 * * *'  # ⏰ 12:25 AM IST
+    - cron: '45 16 * * *'  # ⏰ 10:15 PM IST
   workflow_dispatch:
 
 permissions:
@@ -17,14 +17,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Make daily change
-        run: echo "// ⏰ Test Commit at 12:25 AM IST - $(date)" >> commit_file.js
+        run: echo "// ⏰ Test Commit at 10:15 PM IST - $(date)" >> commit_file.js
 
       - name: Commit and push
         run: |
-          git config --global user.name "GitHub Bot"
-          git config --global user.email "bot@example.com"
+          git config --global user.name "shashwat-81"
+          git config --global user.email "mishrashashwat112@gmail.com"
           git add .
           git commit -m "🕒 Test commit - $(date)" || echo "No changes to commit"
-          git push origin HEAD
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push https://x-access-token:${{ secrets.PAT }}@github.com/shashwat-81/daily-commit-bot.git HEAD
